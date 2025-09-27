@@ -2,7 +2,7 @@
 #define RPN_H
 
 #include "boolean.h"  
-#include "cstack.h"        
+#include "fstack.h"        
 
 
 boolean rpneval(char my_input[]);

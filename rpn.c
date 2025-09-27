@@ -9,7 +9,7 @@ float rpneval(char input[]) {
     char temp[50]; 
     cstack stack;
     float a, b, result, ans;
-    init_cstack(&stack);
+    init_fstack(&stack);
 
     while (1) {
         switch (nextstate) {
@@ -29,14 +29,14 @@ float rpneval(char input[]) {
                 break;
 
             case 1: 
-                if (!cis_empty(stack)) {
-                    b = cpop(&stack);
+                if (!fis_empty(stack)) {
+                    b = fpop(&stack);
                 } else {
                     printf("Error Stack empty \n");
                     exit(0);
                 }
-                if (!cis_empty(stack)) {
-                    a = cpop(&stack);
+                if (!fis_empty(stack)) {
+                    a = fpop(&stack);
                 } else {
                     printf("Error Stack empty \n");
                     exit(0);
@@ -54,8 +54,8 @@ float rpneval(char input[]) {
                         result = a / b; break;
                 }
                 
-                if (!cis_full()) {
-                    cpush(&stack, result);
+                if (!fis_full()) {
+                    fpush(&stack, result);
                     nextstate = 0;
                 } else {
                     printf("Error! Stack is full\n");
@@ -77,7 +77,7 @@ float rpneval(char input[]) {
                 temp[temp_i] = '\0';
                 float val = atof(temp);
                 if (!cis_full()) {
-                    cpush(&stack, val);
+                    fpush(&stack, val);
                     temp_i = 0;
                     i--; 
                     nextstate = 0;
@@ -92,13 +92,13 @@ float rpneval(char input[]) {
                 break;
 
             case 5: 
-                if (!cis_empty(stack)) {
+                if (!fis_empty(stack)) {
                     ans = cpop(&stack);
                 } else {
                     printf("Error Stack empty \n");
                     exit(0);
                 }
-                if (!cis_empty(stack)) {
+                if (!fis_empty(stack)) {
                     printf("Error: Extra operands left on stack\n");
                     exit(0);
                 }
