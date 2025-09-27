@@ -98,7 +98,15 @@ double rpneval(char input[]) {
                 break;
 
             case 5: { 
-                float ans = cpop(&stack);
+                if (!is_empty(&stack)) {
+                    float ans = cpop(&stack);
+                   
+                }
+                else
+                {
+                    printf("Error Stack empty \n");
+                    exit(0);
+                }
                 if (!is_empty(&stack)) {
                     printf("Error: Extra operands left on stack\n");
                     exit(0);
