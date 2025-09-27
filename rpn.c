@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include "rpn.h"
 
-double rpneval(char input[]) {
-    int i = -1, nextstate = 0;
-    float temp_i=0;
+float rpneval(char input[]) {
+    int i = -1, nextstate = 0, temp_i = 0;
     char temp[50]; 
     cstack stack;
-
-    init_stack(&stack);
+    float a, b, result, ans;
+    init_cstack(&stack);
 
     while (1) {
         switch (nextstate) {
@@ -27,23 +28,20 @@ double rpneval(char input[]) {
                 }
                 break;
 
-            case 1: { 
+            case 1: 
                 if (!cis_empty(stack)) {
-                     float b = cpop(&stack);
-                }
-                else {
+                    b = cpop(&stack);
+                } else {
                     printf("Error Stack empty \n");
                     exit(0);
                 }
                 if (!cis_empty(stack)) {
-                     float a = cpop(&stack);
-                }
-                else
-                {
+                    a = cpop(&stack);
+                } else {
                     printf("Error Stack empty \n");
                     exit(0);
-                } 
-                float result;
+                }
+                
                 switch (input[i]) {
                     case '+': result = a + b; break;
                     case '-': result = a - b; break;
@@ -55,18 +53,15 @@ double rpneval(char input[]) {
                         }
                         result = a / b; break;
                 }
-                if (!cis_full())
-                {
-                    push(&stack, result);
+                
+                if (!cis_full()) {
+                    cpush(&stack, result);
                     nextstate = 0;
-                    break;
-                }
-                else {
+                } else {
                     printf("Error! Stack is full\n");
                     exit(0);
                 }
-                
-            }
+                break;
 
             case 2: 
                 temp[temp_i++] = input[i];
@@ -81,38 +76,33 @@ double rpneval(char input[]) {
             case 3: 
                 temp[temp_i] = '\0';
                 float val = atof(temp);
-                if (!cis_full()){
-                   cpush(&stack, val);
+                if (!cis_full()) {
+                    cpush(&stack, val);
                     temp_i = 0;
                     i--; 
                     nextstate = 0;
-                    break;
-                }
-                else
-                {
+                } else {
                     printf("Error! Stack is full\n");
                     exit(0);
                 }
+                break;
+
             case 4: 
                 nextstate = 0;
                 break;
 
-            case 5: { 
-                if (!is_empty(&stack)) {
-                    float ans = cpop(&stack);
-                   
-                }
-                else
-                {
+            case 5: 
+                if (!cis_empty(stack)) {
+                    ans = cpop(&stack);
+                } else {
                     printf("Error Stack empty \n");
                     exit(0);
                 }
-                if (!is_empty(&stack)) {
+                if (!cis_empty(stack)) {
                     printf("Error: Extra operands left on stack\n");
                     exit(0);
                 }
                 return ans;
-            }
 
             case 6: 
                 printf("Error: Invalid character '%c'\n", input[i]);
