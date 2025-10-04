@@ -4,7 +4,7 @@
 #include <string.h>
 #include "cstack.h"
 #include "rpn.h"
-
+#include "algtorpn.h"
 int is_op(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
@@ -15,9 +15,9 @@ int prec(char c) {
     return 0;
 }
 
-float shunting_yard(char input[]) {
+float shunting_yard(char input_string[]) {
     int i = -1, o = 0, state = 0;
-    char output_string[101],junk[10];
+    char output_string[101],junk;
     cstack top;
     init_cstack(&top);
 
@@ -25,26 +25,26 @@ float shunting_yard(char input[]) {
         switch (state) {
             case 0: 
                 i++;
-                if (isdigit(input[i]))
+                if (isdigit(input_string[i]))
                     state = 1;
-                else if (is_op(input[i]))
+                else if (is_op(input_string[i]))
                     state = 2;
-                else if (input[i] == '(')
+                else if (input_string[i] == '(')
                     state = 3;
-                else if (input[i] == ')')
+                else if (input_string[i] == ')')
                     state = 4;
-                else if (input[i] == '\0')
+                else if (input_string[i] == '\0')
                     state = 5;
-                else if (isspace(input[i]))
+                else if (isspace(input_string[i]))
                     state = 0; 
                 else
                     state = 6;
                 break;
 
             case 1: 
-                output_string[o++] = input[i++];
-                while (isdigit(input[i]) || input[i] == '.') {
-                    output_string[o++] = input[i++];
+                output_string[o++] = input_string[i++];
+                while (isdigit(input_string[i]) || input_string[i] == '.') {
+                    output_string[o++] = input_string[i++];
                 }
                 output_string[o++] = ' '; 
                 i--; 
@@ -58,8 +58,8 @@ float shunting_yard(char input[]) {
                     output_string[o] = ' ';
                     o++;
                 }
-                if (!cis_empty(top)) {
-                    cpush(&top, input[i]);
+                if (!cis_full()) {
+                    cpush(&top, input_string[i]);
                 }
                 else
                 {
@@ -69,8 +69,8 @@ float shunting_yard(char input[]) {
                 break;
 
             case 3: 
-                if (!cis_empty(top)){
-                    cpush(&top, input[i]);
+                if (!cis_full()){
+                    cpush(&top, input_string[i]);
                 }
                 else
                 {
@@ -111,7 +111,7 @@ float shunting_yard(char input[]) {
                 return rpneval(output_string);
 
             case 6: 
-                printf("Error: invalid character '%c'\n", input[i]);
+                printf("Error: invalid character '%c'\n", input_string[i]);
                 exit(0);
         }
     }
