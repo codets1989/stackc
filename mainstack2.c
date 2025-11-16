@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "stack.h"
 
+//The main.c program initializes an empty stack and repeatedly displays a menu for the user to choose stack operations. It performs push, pop, and print actions only when valid and continues until the user selects the option to quit.
 int main() {
     stack s;
     int choice, num;

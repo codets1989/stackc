@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
-
+//This program provides a simple loop that asks the user to push values, pop values, or print the stack while checking for full and empty conditions. It keeps running and responding to user choices until the user decides to exit.
 void display_menu() {
     printf("\n--- STACK MENU ---\n");
     printf("1. Push\n");
