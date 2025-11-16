@@ -63,7 +63,7 @@ float shunting_yard(char input_string[]) {
                 }
                 else
                 {
-                    printf("Stack Full \n")
+                    printf("Stack Full \n");
                 }
                 state = 0;
                 break;
