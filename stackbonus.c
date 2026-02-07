@@ -7,7 +7,7 @@ int main(void) {
     stack top;
     init_stack(&top);
 
-    char string_input[30], pop_item;
+    char string_input[31], pop_item;
     int i = 0;
 
     printf("Enter a string: ");
@@ -15,7 +15,12 @@ int main(void) {
     printf("string: %s\n", string_input);
 
     while (string_input[i] != '\0') {
-        push(&top, string_input[i]);
+        if (!is_full()) {
+                push(&top, string_input[i]);
+                
+            } else {
+                printf("ERROR: Stack is full.\n");
+            }
         i++;
     }
 
@@ -24,8 +29,14 @@ int main(void) {
 
     printf("Pop function:\n");
     while (!is_empty(top)) {
+        if (!is_empty(top)) {
         pop_item = pop(&top);
         printf("-->%c<--\n", pop_item);
+    }
+        else
+        {
+            printf("Stack is empty\n");
+        }
     }
 
     if (is_empty(top)) {
