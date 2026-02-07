@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "stack.h"
+#include "cstack.h"
 #include "boolean.h"
 
 int main(void) {
@@ -16,7 +16,7 @@ int main(void) {
 
     while (string_input[i] != '\0') {
         if (!cis_full()) {
-                push(&top, string_input[i]);
+                cpush(&top, string_input[i]);
                 
             } else {
                 printf("ERROR: Stack is full.\n");
@@ -24,7 +24,7 @@ int main(void) {
         i++;
     }
 
-    print_stack(top);
+    print_cstack(top);
     printf("\n");
 
     printf("Pop function:\n");
