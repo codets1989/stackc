@@ -4,8 +4,8 @@
 #include "boolean.h"
 
 int main(void) {
-    stack top;
-    init_stack(&top);
+    cstack top;
+    init_cstack(&top);
 
     char string_input[31], pop_item;
     int i = 0;
@@ -15,7 +15,7 @@ int main(void) {
     printf("string: %s\n", string_input);
 
     while (string_input[i] != '\0') {
-        if (!is_full()) {
+        if (!cis_full()) {
                 push(&top, string_input[i]);
                 
             } else {
@@ -28,19 +28,19 @@ int main(void) {
     printf("\n");
 
     printf("Pop function:\n");
-    while (!is_empty(top)) {
-        if (!is_empty(top)) {
-        pop_item = pop(&top);
+    while (!cis_empty(top)) {
+        if (!cis_empty(top)) {
+        pop_item = cpop(&top);
         printf("-->%c<--\n", pop_item);
     }
         else
         {
-            printf("Stack is empty\n");
+            printf("ERROR: Stack is empty\n");
         }
     }
 
-    if (is_empty(top)) {
-        printf("Stack is empty\n");
+    if (cis_empty(top)) {
+        printf("ERROR: Stack is empty\n");
     }
 
     return 0;
