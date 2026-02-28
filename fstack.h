@@ -12,7 +12,7 @@ void init_fstack(fstack *);
 boolean fis_empty(fstack);
 boolean fis_full(void);
 void fpush(fstack *, float);
-int fpop(fstack *);
+float fpop(fstack *);
 void print_fstack(fstack s);
 
 #endif
