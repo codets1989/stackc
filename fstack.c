@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "cstack.h"
+#include "fstack.h"
 
 void init_fstack(fstack *s) {
     *s = NULL;
@@ -25,12 +25,12 @@ boolean fis_full(void) {
 }
 void fpush(fstack *s, char x) {
     fstack temp;
-    temp = (fstack) malloc(sizeof(struct fstacknode));
+    temp = (fstack) malloc(sizeof(struct sstacknode));
     temp -> data = x;
     temp -> next = (*s);
     (*s) = temp;
 }
-char fpop(fstack *s) {
+float fpop(fstack *s) {
     fstack temp;
     float data_popped;
     temp = *s;

@@ -11,7 +11,7 @@ typedef struct stacknode {
 void init_fstack(fstack *);
 boolean fis_empty(fstack);
 boolean fis_full(void);
-void fush(fstack *, char);
+void fpush(fstack *, float);
 int fpop(fstack *);
 void print_fstack(fstack s);
 

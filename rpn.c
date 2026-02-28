@@ -7,7 +7,7 @@
 float rpneval(char input[]) {
     int i = -1, nextstate = 0, temp_i = 0;
     char temp[50]; 
-    cstack stack;
+    fstack stack;
     float a, b, result, ans;
     init_fstack(&stack);
 
@@ -15,7 +15,9 @@ float rpneval(char input[]) {
         switch (nextstate) {
             case 0: 
                 i++;
-                if (strchr("+-*/", input[i])) {
+                if (input[i] == '\0') {
+                    nextstate = 5;
+                else if (strchr("+-*/", input[i])) {
                     nextstate = 1;
                 } else if (isdigit(input[i])) {
                     nextstate = 2;
@@ -93,7 +95,7 @@ float rpneval(char input[]) {
 
             case 5: 
                 if (!fis_empty(stack)) {
-                    ans = cpop(&stack);
+                    ans = fpop(&stack);
                 } else {
                     printf("Error Stack empty \n");
                     exit(0);
