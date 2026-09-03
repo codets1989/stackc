@@ -25,7 +25,7 @@ boolean cis_full(void) {
 }
 void cpush(cstack *s, char x) {
     cstack temp;
-    temp = (cstack) malloc(sizeof(struct cstacknode));
+    temp = (cstack) malloc(sizeof(struct stacknode));
     temp -> data = x;
     temp -> next = (*s);
     (*s) = temp;
