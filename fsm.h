@@ -6,6 +6,6 @@
 #include "util.h"     
 
 
-boolean fsm(char my_input);
+boolean fsm(char my_input[]);
 
 #endif 
