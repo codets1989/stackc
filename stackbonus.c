@@ -28,15 +28,10 @@ int main(void) {
     printf("\n");
 
     printf("Pop function:\n");
-    while (!cis_empty(top)) {
-        if (!cis_empty(top)) {
+    while (!cis_empty(top)) { 
         pop_item = cpop(&top);
         printf("-->%c<--\n", pop_item);
-    }
-        else
-        {
-            printf("ERROR: Stack is empty\n");
-        }
+            
     }
 
     if (cis_empty(top)) {
