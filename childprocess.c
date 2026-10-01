@@ -1,44 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 
-void createChild();
-void childExecute();
+void executeCommand(int choice);
 
 int main() {
     int choice;
 
     do {
-        printf("\n===== PROCESS MANAGEMENT MENU =====\n");
-        printf("1. Create Child Process\n");
-        printf("2. Exit\n");
-        printf("Enter your choice: ");
+        printf("\n========================================\n");
+        printf("PROCESS CREATION AND TERMINATION\n");
+        printf("========================================\n");
+        printf("1. Execute ls -l\n");
+        printf("2. Execute sleep 5\n");
+        printf("3. Execute an invalid command\n");
+        printf("4. Exit\n");
+        printf("\nEnter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                createChild();
+                executeCommand(1);
                 break;
 
             case 2:
-                printf("Exiting program...\n");
+                executeCommand(2);
+                break;
+
+            case 3:
+                executeCommand(3);
+                break;
+
+            case 4:
+                printf("\nParent process is exiting. Goodbye!\n");
                 break;
 
             default:
-                printf("Invalid choice. Please try again.\n");
+                printf("\nInvalid menu choice. Please try again.\n");
         }
 
-    } while (choice != 2);
+    } while (choice != 4);
 
     return 0;
 }
 
-void createChild() {
+void executeCommand(int choice) {
     pid_t pid;
     int status;
-
-    printf("\nParent process is creating a child...\n");
 
     pid = fork();
 
@@ -48,21 +58,50 @@ void createChild() {
     }
 
     if (pid == 0) {
-        // Child process
-        childExecute();
+        /* Child process */
 
-        // This runs only if exec fails
-        perror("exec failed");
-        exit(1);
+        printf("\n--- Child Process ---\n");
+        printf("Child process PID: %d\n", getpid());
+        printf("Parent PID of child: %d\n", getppid());
+
+        if (choice == 1) {
+            printf("Command child will execute: ls -l\n");
+
+            execlp("ls", "ls", "-l", (char *)NULL);
+
+            /* Only reached if exec fails */
+            perror("exec failed");
+            exit(1);
+        }
+        else if (choice == 2) {
+            printf("Command child will execute: sleep 5\n");
+
+            execlp("sleep", "sleep", "5", (char *)NULL);
+
+            /* Only reached if exec fails */
+            perror("exec failed");
+            exit(1);
+        }
+        else if (choice == 3) {
+            printf("Command child will execute: invalidcommand\n");
+
+            execlp("invalidcommand", "invalidcommand", (char *)NULL);
+
+            /* exec must fail for this option */
+            perror("exec failed");
+            exit(1);
+        }
     }
     else {
-        // Parent process
+        /* Parent process */
+
+        printf("\n--- Parent Process ---\n");
         printf("Parent process PID: %d\n", getpid());
         printf("Child process PID: %d\n", pid);
 
         printf("Parent is waiting for the child...\n");
 
-        wait(&status);
+        waitpid(pid, &status, 0);
 
         if (WIFEXITED(status)) {
             printf("Child terminated normally.\n");
@@ -71,12 +110,7 @@ void createChild() {
         else {
             printf("Child did not terminate normally.\n");
         }
+
+        printf("Parent resumed after the child terminated.\n");
     }
-}
-
-void childExecute() {
-    printf("Child process is executing another program...\n");
-
-    // Execute the "ls" program
-    execlp("ls", "ls", "-l", NULL);
 }
